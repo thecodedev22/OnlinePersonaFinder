@@ -7,21 +7,45 @@ from rich.table import Table
 from geo import lookup_ip
 from image_geo import extract_image_location
 import time
+import shutil
+
+try:
+    from pyfiglet import figlet_format
+    PYFIGLET_AVAILABLE = True
+except ImportError:
+    PYFIGLET_AVAILABLE = False
 
 console = Console()
 
 # -------------------- Boot ASCII --------------------
 def boot_sequence():
-    ascii_art = r"""
-________         .__  .__             __________                                        ___________.__            .___          ____   ________ 
-\_____  \   ____ |  | |__| ____   ____\______   \ ___________  __________   ____ _____  \_   _____/|__| ____    __| _/__________\   \ /   /_   |
- /   |   \ /    \|  | |  |/    \_/ __ \|     ___// __ \_  __ \/  ___/  _ \ /    \\__  \  |    __)  |  |/    \  / __ |/ __ \_  __ \   Y   / |   |
-/    |    \   |  \  |_|  |   |  \  ___/|    |   \  ___/|  | \/\___ (  <_> )   |  \/ __ \_|     \   |  |   |  \/ /_/ \  ___/|  | \/\     /  |   |
-\_______  /___|  /____/__|___|  /\___  >____|    \___  >__|  /____  >____/|___|  (____  /\___  /   |__|___|  /\____ |\___  >__|    \___/   |___|
-        \/     \/             \/     \/              \/           \/           \/     \/     \/            \/      \/    \/ 
-    """
-    console.print(ascii_art, style="bold cyan")
-    console.print("[bold yellow]Initializing OSINT Dashboard...[/bold yellow]\n")
+    width = shutil.get_terminal_size().columns
+
+    if PYFIGLET_AVAILABLE:
+        # Use pyfiglet with a font that fits well
+        if width >= 100:
+            font = "slant"
+            line1 = figlet_format("Online  Persona", font=font)
+            line2 = figlet_format("Finder  v1", font=font)
+        else:
+            font = "small"
+            line1 = figlet_format("Online Persona", font=font)
+            line2 = figlet_format("Finder v1", font=font)
+
+        console.print(line1, style="bold cyan", end="")
+        console.print(line2, style="bold magenta", end="")
+    else:
+        # Fallback: simple banner that fits in 60 chars
+        banner = [
+            "╔══════════════════════════════════════════╗",
+            "║      ONLINE  PERSONA  FINDER  v1         ║",
+            "║         OSINT Dashboard                  ║",
+            "╚══════════════════════════════════════════╝",
+        ]
+        for line in banner:
+            console.print(line, style="bold cyan")
+
+    console.print("\n[bold yellow]Initializing OSINT Dashboard...[/bold yellow]\n")
     for i in range(3):
         console.print(f"[green]Loading{'.' * (i+1)}[/green]")
         time.sleep(0.5)
@@ -139,7 +163,7 @@ def image_geo_scan():
 
 # -------------------- Main Menu --------------------
 def main_menu():
-    boot_sequence()  # Show ASCII at startup
+    boot_sequence()
     while True:
         choice = inquirer.select(
             message="Select a scan type:",
