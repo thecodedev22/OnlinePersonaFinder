@@ -1,0 +1,11 @@
+requests
+InquirerP
+rich
+dnspython
+Pillow
+pyfiglet
+bs4
+html5lib
+phonenumbers
+urllib3
+colorama

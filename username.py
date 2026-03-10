@@ -14,6 +14,12 @@ sites = {
     "BeReal": "https://www.bereal.com/{}",
     "Snapchat": "https://www.snapchat.com/add/{}",
     "Pinterest": "https://www.pinterest.com/{}",
+    "Twitch": "https://www.twitch.tv/{}",
+    "Spotify": "https://open.spotify.com/user/{}",
+    "youtube": "https://www.youtube.com/{}",
+    "medium": "https://medium.com/@{}",
+    "dev.to": "https://dev.to/{}",
+    "hackernews": "https://news.ycombinator.com/user?id={}",
 }
 
 def search_username(username):
